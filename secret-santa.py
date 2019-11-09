@@ -17,7 +17,7 @@ smtp = cfg['secret']['smtp']
 def choose(names):
 	chosen = []
 	for p in names:
-		others = [x for x in names if x[2] != p[2] and x not in chosen]
+		others = [x for x in names if x[2] != p[2] and x[0] != p[3] and x not in chosen]
 
 		if not others:
 			print('others is empty')
@@ -63,4 +63,4 @@ while True:
 	if names:
 		break
 
-names = send(names)
+#names = send(names)
