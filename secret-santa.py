@@ -17,7 +17,11 @@ smtp = cfg['secret']['smtp']
 def choose(names):
 	chosen = []
 	for p in names:
-		others = [x for x in names if x[2] != p[2] and x[0] != p[3] and x not in chosen]
+		# Find names available to choose
+		others = [x for x in names
+				if x[2] != p[2] # Exclude family members
+				and x[0] != p[3] # Exclude their previous match
+				and x not in chosen] # Exclude used names
 
 		if not others:
 			print('others is empty')
@@ -40,12 +44,12 @@ def sendone(i, names, wait):
 		msg['To'] = names[0][1]
 		s.send_message(msg)
 
-		#print(msg.as_string())
 		names.remove(names[0])
 		print('sent')
 		s.quit()
 
 	except smtplib.SMTPRecipientsRefused:
+		time.sleep(wait)
 		sendone(i, names, wait * 2)
 
 	return names
@@ -53,14 +57,18 @@ def sendone(i, names, wait):
 
 def send(names):
 	for i in range(len(names)):
-		names = sendone(i, names, 100)
+		names = sendone(i, names, 1)
 
-while True:
-	with open('names.csv') as csvfile:
-		reader = csv.reader(csvfile)
-		names = [r for r in reader]
-	names = choose(names)
-	if names:
-		break
+def main():
+	while True:
+		with open('names.csv') as csvfile:
+			reader = csv.reader(csvfile)
+			names = [r for r in reader]
+		names = choose(names)
+		if names:
+			break
 
-#names = send(names)
+	names = send(names)
+
+if __name__ == '__main__':
+	main()
