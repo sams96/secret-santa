@@ -38,7 +38,7 @@ def sendone(i, names, wait):
 		s = smtplib.SMTP(smtp, port = 587, timeout = 60)
 		s.login(addr, pasw)
 
-		msg = MIMEText('Your secret santa is ' + names[0][3], 'plain', 'utf-8')
+		msg = MIMEText('Your secret santa is ' + names[0][4], 'plain', 'utf-8')
 		msg['Subject'] = Header(head, 'utf-8')
 		msg['From'] = addr
 		msg['To'] = names[0][1]
