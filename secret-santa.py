@@ -1,3 +1,10 @@
+#
+#    This file is part of secret-santa
+#    copyright (c) 2018 Sam Smith.
+#
+#    secret-santa is distributed under the MIT License.
+#
+
 import csv
 import random
 import smtplib
